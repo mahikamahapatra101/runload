@@ -88,13 +88,3 @@ requirements.txt
 sample_data.csv
 \`\`\`
 
-## Next up
-
-Building the React frontend to sit on top of this:
-- Line chart of daily load with acute/chronic overlaid
-- A risk card pulling from `/risk/current`
-- CSV upload button hitting `/upload-csv`
-
-Eventually deploying the backend on Render or Railway and the
-frontend on Vercel so this is a live, working project and not just a
-repo.
