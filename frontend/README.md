@@ -17,7 +17,7 @@ npm run dev
 ```
 
 Opens at http://localhost:5173. It talks to the backend at
-`http://127.0.0.1:8000` -- if you ever run the backend on a different
+`http://127.0.0.1:8000`,if you ever run the backend on a different
 port, change `API_BASE` in `src/api.js`.
 
 ## What's actually in here
@@ -27,7 +27,7 @@ src/
   App.jsx                    top-level layout, pulls all the data on load
   api.js                     fetch wrappers for each backend endpoint
   components/
-    RiskGauge.jsx             the zone gauge -- shows where today's ACWR sits
+    RiskGauge.jsx             the zone gauge, shows where today's ACWR sits
     LoadChart.jsx             daily load bars + acute/chronic lines (recharts)
     UploadCard.jsx            CSV upload + manual run logging, toggled
     SessionsTable.jsx         last 8 logged runs
@@ -41,6 +41,6 @@ src/
 - CORS is wide open on the backend right now since it's just me
   hitting it locally. Would need to lock that down before this ever
   had real users.
-- Build with `npm run build` -- outputs to `dist/`, deployable to
+- Build with `npm run build` outputs to `dist/`, deployable to
   Vercel or Netlify as a static site once the backend's actually
   hosted somewhere.
