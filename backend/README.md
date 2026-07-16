@@ -71,7 +71,7 @@ load spike near the end, so uploading it is a quick way to see
 ## Getting real data in
 
 - Exported my own history from Strava and reshaped it into this CSV
-  format — it's my data, so no issue using it directly.
+  format, it's my data, so no issue using it directly.
 - Kaggle also has open running/marathon datasets if I want more volume
   to test against later.
 
