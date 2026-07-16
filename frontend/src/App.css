@@ -1,0 +1,392 @@
+:root {
+  /* Clean, high-contrast, paper-and-ink minimalist palette to keep the layout highly readable */
+  --paper: #f4f5f1;
+  --ink: #161a17;
+  --card: #ffffff;
+  --line: #e1e3dc;
+  --muted: #6b7268;
+
+  /* Domain specificc colors mapping directly to Gabbett's injury  risk zones */
+  --zone-under: #4c7ea8;     /* Undertrained - Cool blue */
+  --zone-sweet: #4f8f6b;     /* Sweet Spot - Safe green */
+  --zone-moderate: #d79a3c;  /* Moderate Risk - Warning amber */
+  --zone-high: #c1553c;      /* High Risk - Danger red */
+
+  /* Fallback system font stacks so we don't have to load heavy external web fonts */
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+/* accessible wrapper constraint for readable desktop layouts */
+.app {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* ===== Header ===== */
+.app-header {
+  margin-bottom: 24px;
+}
+.wordmark {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.wordmark-accent {
+  color: var(--zone-sweet);
+}
+.tagline {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.error-banner {
+  background: #fbeae5;
+  border: 1px solid var(--zone-high);
+  color: #7a2c1a;
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+/* ===== Hero (risk gauge section) ===== */
+.hero {
+  background: var(--ink);
+  color: #f2f2ee;
+  border-radius: 8px;
+  padding: 28px 24px 24px;
+  margin-bottom: 20px;
+}
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a7ada2;
+  margin-bottom: 6px;
+}
+.hero-value {
+  font-family: var(--mono);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+.hero-risk-label {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+.hero-risk-label--undertrained { background: var(--zone-under); color: #fff; }
+.hero-risk-label--sweet-spot { background: var(--zone-sweet); color: #fff; }
+.hero-risk-label--moderate-risk { background: var(--zone-moderate); color: #241a05; }
+.hero-risk-label--high-risk { background: var(--zone-high); color: #fff; }
+
+.hero-recommendation {
+  max-width: 32ch; /* Restricts line-length to keep reading easy */
+  font-size: 14px;
+  color: #cfd3c8;
+  margin: 0;
+}
+.hero-empty .hero-eyebrow {
+  font-size: 13px;
+}
+.hero-empty .hero-recommendation {
+  max-width: 44ch;
+  color: #cfd3c8;
+}
+
+/* ===== Zone gauge (signature element) ===== */
+/* This houses our custom ACWR linear needle-marker gauge */
+.gauge-track {
+  position: relative;
+  display: flex;
+  height: 14px;
+  border-radius: 4px;
+  overflow: visible; /* Crucial so the needle marker can float above/below the track limits */
+}
+.gauge-zone {
+  height: 100%;
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+}
+.gauge-zone:first-child { border-radius: 4px 0 0 4px; }
+.gauge-zone:last-child { border-radius: 0 4px 4px 0; }
+.gauge-zone--active {
+  opacity: 1; /* Highlights the active zone the needle is currently pointing to */
+}
+.gauge-marker {
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50%); /* Centers the vertical line perfectly on its calculated % value */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gauge-marker-line {
+  width: 2px;
+  height: 34px;
+  background: #f2f2ee;
+}
+.gauge-marker-value {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #f2f2ee;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: #a7ada2;
+  text-transform: uppercase;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.card-head h2 {
+  font-family: var(--mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chart-empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 40px 0;
+  text-align: center;
+}
+
+/* Legend for the Recharts training load graph */
+.legend {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.dot--bar { background: var(--line); }
+.dot--acute { background: var(--zone-high); }
+.dot--chronic { background: var(--ink); }
+
+/* ===== Toggle (Weekly vs Monthly switches) ===== */
+.toggle {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  cursor: pointer;
+}
+.toggle-btn--active {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* ===== Upload ===== */
+.upload-zone {
+  border: 1px dashed var(--line);
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+}
+.upload-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.upload-label input {
+  display: block;
+  margin: 0 auto 8px;
+}
+
+/* ===== Manual form ===== */
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+.field-row label {
+  flex: 1;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+input {
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+  background: #fff;
+}
+input:focus {
+  /* High visibility focus ring for accessibility when tabbing through inputs */
+  outline: 2px solid var(--zone-sweet);
+  outline-offset: 1px;
+}
+
+.btn-primary {
+  align-self: flex-start;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.status {
+  margin-top: 12px;
+  font-size: 13px;
+}
+.status--ok { color: var(--zone-sweet); }
+.status--error { color: var(--zone-high); }
+
+/* ===== Sessions table ===== */
+.sessions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.sessions-table th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.sessions-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+}
+/* Prevents super long runner notes from breaking table cell alignment */
+.notes-cell {
+  font-family: var(--sans);
+  color: var(--muted);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* apppends "..." when notes exceed the maximum cell width */
+  white-space: nowrap;
+}
+
+/* ===== Footer ===== */
+.app-footer {
+  margin-top: 30px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 560px) {
+  .hero-value { font-size: 36px; }
+  .field-row { flex-direction: column; } /* Form wraps vertically on narrow mobile screens */
+  .sessions-table { font-size: 12px; }
+  .notes-cell { max-width: 90px; } /* Shrinks truncation threshold further on mobile */
+}
+
+/* ===== Reduced motion ===== */
+/* Ensures transitions are completely bypassed for users with motion sensitivity settings */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
