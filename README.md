@@ -11,9 +11,9 @@ check my own training.
 
 ## What's here
 
-- **[`backend/`](./backend)** -- Python (FastAPI, SQLAlchemy, pandas). Calculates
+- **[`backend/`](./backend)**-> Python (FastAPI, SQLAlchemy, pandas). Calculates
   daily training load, rolling ACWR, and risk zone from uploaded run data.
-- **[`frontend/`](./frontend)** -- React + Vite dashboard. Shows today's risk on
+- **[`frontend/`](./frontend)**-> React + Vite dashboard. Shows today's risk on
   a zone gauge, a load trend chart, and lets me log runs or upload a CSV.
 
 Each folder has its own README with setup instructions.
