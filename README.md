@@ -5,15 +5,15 @@ Uses ACWR (acute:chronic workload ratio), a sports-science metric that
 compares recent training load against a longer baseline to flag when
 I'm ramping up too fast.
 
-Started as a way to fill a gap in my portfolio -- no live, deployed,
-full-stack project -- and turned into something I actually use to
+Started as a way to fill a gap in my portfolio, no live, deployed,
+full-stack project, and turned into something I actually use to
 check my own training.
 
 ## What's here
 
-- **[`backend/`](./backend)** -- Python (FastAPI, SQLAlchemy, pandas). Calculates
+- **[`backend/`](./backend)**-> Python (FastAPI, SQLAlchemy, pandas). Calculates
   daily training load, rolling ACWR, and risk zone from uploaded run data.
-- **[`frontend/`](./frontend)** -- React + Vite dashboard. Shows today's risk on
+- **[`frontend/`](./frontend)**-> React + Vite dashboard. Shows today's risk on
   a zone gauge, a load trend chart, and lets me log runs or upload a CSV.
 
 Each folder has its own README with setup instructions.
