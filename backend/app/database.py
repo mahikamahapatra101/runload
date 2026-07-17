@@ -1,39 +1,39 @@
 """
-Database setup for RunLoad.
+db setup. SQLite locally, zero setup needed, just a file on disk.
 
-Uses SQLite by default so the whole project runs with zero external
-setup. Swapping to Postgres later just means changing DATABASE_URL
-to something like postgresql://user:pass@host/dbname and installing
-psycopg2-binary -- everything else (models, queries) stays the same.
+Render's free tier wipes the filesystem every time it spins down and
+back up, which means local SQLite loses everything after a period of
+inactivity -- found this out the hard way when my dashboard showed
+"no data" a day after uploading. So in production DATABASE_URL gets
+set as an env var pointing at a real Postgres instance (using Neon),
+which actually persists.
 """
 
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Keep it local and simple for development. Generates 'runload.db' in the root directory.
-DATABASE_URL = "sqlite:///./runload.db"
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./runload.db")
 
-# Create the engine to talk to the database.
-engine = create_engine(
-    DATABASE_URL,
-    # SQLite is single-threaded by default, but FastAPI requests run on different threads.
-    # This arg tells SQLite to let multiple threads access the database safely.
-    connect_args={"check_same_thread": False},  # needed for SQLite + FastAPI
-)
+# Neon (and some other providers) hand back "postgres://" but
+# SQLAlchemy wants "postgresql://" -- fixing that here so I don't
+# have to remember to edit the connection string by hand every time.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-# Session factory for creating temporary database connections.
-# autocommit/autoflush are False so we have explicit control over when we save data.
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class that our SQL Models (like Run, User, etc.) will inherit from.
 Base = declarative_base()
 
 
 def get_db():
-    """FastAPI dependency that yields a DB session and always closes it."""
+    """gives each request its own db session, closes it when done"""
     db = SessionLocal()
     try:
         yield db
     finally:
-        # Crucial to close this so we don't leak database connections and lock the file.
         db.close()
